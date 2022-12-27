@@ -134,6 +134,7 @@ void AddPatient(node **head, antrian *antrian, data **history)
 		pNewHistory->Keluhan = Keluhan;
 		pNewHistory->umur = umur;
 		pNewHistory->next = NULL;
+		pNewHistory->prev = NULL;
 		*history = pNewHistory;
 		antrian->count += 1;
 		if(antrian->front == NULL)
@@ -155,6 +156,7 @@ void AddPatient(node **head, antrian *antrian, data **history)
 		pNewHistory->Keluhan = Keluhan;
 		pNewHistory->umur = umur;
 		pNewHistory->next = NULL;
+		pNewHistory->prev = pTailHistory;
 		pTailHistory->next = pNewHistory;
 
 		pCur = *head;
@@ -418,22 +420,40 @@ void showHistory(data *history)
 	pWalker = history;
 	if(history != NULL)
 	{	
-		int i = 1;
-		printf("=============================\n");
-		printf("        HISTORY PASIEN       \n");
-		printf("=============================\n");
+		int pilih;
 		while (pWalker != NULL)
 		{
-			printf("\n===== %i =====", i);
+			printf("=============================\n");
+			printf("        HISTORY PASIEN       \n");
+			printf("=============================\n");
+			printf("\n=============");
 			printf("\nNama Pasien  :%s", pWalker->Nama);
 			printf("\nJenis Kelamin :%s", pWalker->Jenis);
 			printf("\nUmur :%i", pWalker->umur);
 			printf("\nUrgensi :%s", pWalker->Keluhan == 1 ? "Umum" : pWalker->Keluhan == 2 ? "IGD" : "UGD");
 			printf("\n=============\n");
-			pWalker = pWalker -> next;
-			i++;
+			printf("\n=============================\n");
+			pilihOperasi:
+			printf("Pilih Operasi\n");
+			if (pWalker->next != NULL) printf("1. Next Data\n");
+			if (pWalker->prev != NULL) printf("2. Prev Data\n");
+			printf("3. Done\n");
+			scanf("%i", &pilih);
+			if (pWalker->next == NULL && pilih == 1)
+			{
+				printf("Tidak ada data setelah ini!\n");
+				goto pilihOperasi;
+			}
+			if (pWalker->prev == NULL && pilih == 2)
+			{
+				printf("Tidak ada data sebelum ini!\n");
+				goto pilihOperasi;
+			}
+			if(pilih == 1) pWalker = pWalker -> next;
+			else if(pilih == 2) pWalker = pWalker -> prev;
+			else if(pilih == 3) return;
+			system("cls");
 		}
-		printf("\n=============================\n");
 	}
 	else
 	{
