@@ -6,6 +6,9 @@
 ### Prequisite
 * Install GCC/G++ Compiler
 * Install GIT
+<a href="https://git-scm.com/downloads">
+GIT Download Link
+</a>
 
 ### Installation
 1. Clone the Repo
