@@ -10,6 +10,15 @@ struct node {
 };
 typedef struct node node;
 
+struct data {
+    char Nama[20];
+    char Jenis[20];
+    int umur;
+	int Keluhan;
+    struct data *next,*prev;
+};
+typedef struct data data;
+
 struct antrian {
   struct node *front;
   int count;
@@ -18,15 +27,18 @@ struct antrian {
 typedef struct antrian antrian;
 
 antrian bukaAntrian(void);
-void AddPatient(node **head, antrian *antrian);
+void AddPatient(node **head, antrian *antrian, data **history);
 void ProcessPatient(node **head, antrian *antrian);
 void traverse(node *head, antrian *antrian);
+void showHistory(data *history);
 
 int main()
 {
   char selectMenu, lanjut;
   node *head;
   head = NULL;
+  data *history;
+  history = NULL;
   antrian antrian;
   antrian = bukaAntrian();
   do{
@@ -63,14 +75,17 @@ int main()
 	printf("  1. Masukan Antrian\n");      
 	printf("  2. Proses Antrian\n");
 	printf("  3. Tampilkan Antrian\n");
+	printf("  4. Tampilkan History Pasien\n");
 	printf("Masukkan Pilihan (ketik 'q' untuk keluar) : "); 
 	fflush(stdin); scanf("%c", &selectMenu);
 	if (selectMenu == '1')
-        AddPatient(&head, &antrian);
+        AddPatient(&head, &antrian, &history);
     else if (selectMenu == '2')
         ProcessPatient(&head, &antrian);
     else if (selectMenu == '3')
         traverse(head, &antrian);
+    else if (selectMenu == '4')
+        showHistory(history);
   } while (selectMenu != 'q');
 }
 
@@ -83,14 +98,16 @@ antrian bukaAntrian(void){
 }
 
 //========================================================
-void AddPatient(node **head, antrian *antrian)
+void AddPatient(node **head, antrian *antrian, data **history)
 {
     node *pNew, *pCur, *KeluhanKecil, *Masuk;
+	data  *pNewHistory, *pTailHistory;
     int Keluhan, umur;
     char Nama[20], gender[20];
     int bolehMasuk = 1, KeluhanLebihKecil = 0;
     system("cls");
     pNew = (node *)malloc(sizeof(node));
+    pNewHistory = (data *)malloc(sizeof(data));
 
 	printf("Masukkan Keluhan : ");
 	printf("\n1.Umum  ");
@@ -111,6 +128,13 @@ void AddPatient(node **head, antrian *antrian)
 		pNew->Keluhan = Keluhan;
 		pNew->next = NULL;
 		*head = pNew;
+
+		strcpy(pNewHistory->Nama, Nama);
+		strcpy(pNewHistory->Jenis, gender);
+		pNewHistory->Keluhan = Keluhan;
+		pNewHistory->umur = umur;
+		pNewHistory->next = NULL;
+		*history = pNewHistory;
 		antrian->count += 1;
 		if(antrian->front == NULL)
 		{
@@ -124,6 +148,15 @@ void AddPatient(node **head, antrian *antrian)
 	}
 	else
 	{
+		pTailHistory = *history;
+		while (pTailHistory->next != NULL) pTailHistory = pTailHistory -> next;
+		strcpy(pNewHistory->Nama, Nama);
+		strcpy(pNewHistory->Jenis, gender);
+		pNewHistory->Keluhan = Keluhan;
+		pNewHistory->umur = umur;
+		pNewHistory->next = NULL;
+		pTailHistory->next = pNewHistory;
+
 		pCur = *head;
 		while (pCur->next != NULL) pCur = pCur -> next;
 
@@ -374,6 +407,37 @@ void traverse(node *head, antrian *antrian)
 		printf("=============================\n");
 		printf("Jumlah Antrian = %i\n", antrian->count);
 		printf("=============================\n");
+	} 
+	getch();
+}
+
+void showHistory(data *history)
+{
+	system("cls");
+	data *pWalker;
+	pWalker = history;
+	if(history != NULL)
+	{	
+		int i = 1;
+		printf("=============================\n");
+		printf("        HISTORY PASIEN       \n");
+		printf("=============================\n");
+		while (pWalker != NULL)
+		{
+			printf("\n===== %i =====", i);
+			printf("\nNama Pasien  :%s", pWalker->Nama);
+			printf("\nJenis Kelamin :%s", pWalker->Jenis);
+			printf("\nUmur :%i", pWalker->umur);
+			printf("\nUrgensi :%s", pWalker->Keluhan == 1 ? "Umum" : pWalker->Keluhan == 2 ? "IGD" : "UGD");
+			printf("\n=============\n");
+			pWalker = pWalker -> next;
+			i++;
+		}
+		printf("\n=============================\n");
+	}
+	else
+	{
+		printf("Antrian Kosong / Belum Buka\n");
 	} 
 	getch();
 }
