@@ -6,7 +6,7 @@
 struct node {
     int Keluhan;
     char Nama[20];
-    struct node *next,*prev;
+    struct node *next;
 };
 typedef struct node node;
 
@@ -363,7 +363,6 @@ void ProcessPatient(node **head, antrian *antrian)
 		if(pCur->next!=NULL)
 		{
 			*head=pCur->next;
-			pCur->prev= NULL;
 			antrian->front = pCur->next;
 		}
 		else 
