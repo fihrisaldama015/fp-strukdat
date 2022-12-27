@@ -1,5 +1,10 @@
 ## fp-strukdat
 # Sistem Prioritas Pelayanan Rumah Sakit
+* 21081010110 Muhamad Fihris Aldama
+* 21081010114 Erik Evranata Pardede
+* 21081010117 Mohammad Agil Rofiqul Zein
+* 21081010119 Rayya Ruwaim Nafie
+* 21081010122 Andhini Putri Arini
 
 ## Getting Started
 
