@@ -244,26 +244,11 @@ void ProcessPatient(node **head, antrian *antrian)
 			printf(" | 4  |   Kelas III                          |\n");
 			printf(" |____|______________________________________|\n");
 			printf(" Pilihan Anda[1/2/3/4]= "); scanf("%i", &kamar);
-			if (kamar == 1)
-			{
-				tarif = 3500000;
-				bikam = tarif * lama;
-			}
-			else if (kamar == 2)
-			{
-				tarif = 2000000;
-				bikam = tarif * lama;
-			}
-			else if (kamar == 3)
-			{
-				tarif = 1350000;
-				bikam = tarif * lama;
-			}
-			else if (kamar == 4)
-			{
-				tarif = 850000;
-				bikam = tarif * lama;
-			}
+			if (kamar == 1) tarif = 3500000;
+			else if (kamar == 2) tarif = 2000000;
+			else if (kamar == 3) tarif = 1350000;
+			else if (kamar == 4) tarif = 850000;
+			bikam = tarif * lama;
 			printf("Tarif kamar per malam Rp. %i,-", tarif);
 			printf("\nTagihan Kamar : %i", bikam);
 			printf("\n _____________________________________________\n");
@@ -314,7 +299,7 @@ void ProcessPatient(node **head, antrian *antrian)
 				printf(" Rp. 1.600.000- (belum termasuk biaya obat dan kamar)\n");
 				printf(" ---------------------------------------------------------------\n");
 			}
-			else if (dokter = 3)
+			else if (dokter == 3)
 			{
 				bidok = lama * 1500000;
 				printf(" ---------------------------------------------------------------\n");
@@ -351,6 +336,10 @@ void ProcessPatient(node **head, antrian *antrian)
 				printf(" Biaya perawatan untuk 1 kali pengecekan dokter (per hari 2x cek)\n");
 				printf(" Rp. 1.350.000- (belum termasuk biaya obat dan kamar)\n");
 				printf(" ---------------------------------------------------------------\n");
+			}
+			else
+			{
+				printf("Pilihan tidak ada!\n");
 			}
 			printf("Biaya Obat : "); scanf("%i", &biob);
 			tot = biob + bidok + bikam;
